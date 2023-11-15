@@ -101,6 +101,16 @@ identity_host: "{% if groups.external_identity | default(False) %}\
   {{- groups.identity | default([]) | map('extract', hostvars, ['ansible_default_ipv4', 'address']) | first | default('127.0.0.1') -}}\
   {% endif %}"
 
+# List of all hosts for Firewall
+nginx_hosts_list: "{{ groups['nginx'] | default([]) | map('extract', hostvars, ['ansible_default_ipv4','address']) }}"
+repo_hosts_list: "{{ groups['repository'] | default([]) | map('extract', hostvars, ['ansible_default_ipv4','address']) }}"
+trans_hosts_list: "{{ groups['transformers'] | default([]) | map('extract', hostvars, ['ansible_default_ipv4','address']) }}"
+acc_hosts_list: "{{ groups['acc'] | default([]) | map('extract', hostvars, ['ansible_default_ipv4','address']) }}"
+adw_hosts_list: "{{ groups['adw'] | default([]) | map('extract', hostvars, ['ansible_default_ipv4','address']) }}"
+sync_hosts_list: "{{ groups['syncservice'] | default([]) | map('extract', hostvars, ['ansible_default_ipv4','address']) }}"
+search_hosts_list: "{{ groups['search'] | default([]) | map('extract', hostvars, ['ansible_default_ipv4','address']) }}"
+search_ent_hosts_list: "{{ groups['search_enterprise'] | default([]) | map('extract', hostvars, ['ansible_default_ipv4','address']) }}"
+
 ports_cfg:
   nginx:
     http: 80

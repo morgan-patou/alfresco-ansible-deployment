@@ -35,6 +35,10 @@
       ansible.builtin.set_fact:
         alfresco_url: "{{ known_urls | first | default('http://' ~ nginx_host) }}"
 
+- name: Setup the firewall
+  ansible.builtin.import_playbook: firewall.yml
+  when: not (skip_fw_config | default(true) | bool)
+
 - name: Database Role
   hosts: database
   gather_facts: false

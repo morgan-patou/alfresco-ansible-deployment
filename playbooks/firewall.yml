@@ -1,0 +1,144 @@
+---
+- name: Gather facts from all hosts
+  hosts: all:!external
+  gather_facts: false
+  tasks:
+    - name: Setup
+      ansible.builtin.setup:
+
+- name: Configure and enable the firewall on activemq hosts
+  hosts: activemq
+  become: true
+  tasks:
+  - name: Include firewall task
+    include_tasks: "../roles/common/tasks/firewall.yml"
+    vars:
+      firewall_ports:
+        - "{{ ports_cfg.activemq[activemq_protocol] }}"
+      firewall_sources:
+        - "{{ repo_hosts_list }}"
+        - "{{ sync_hosts_list }}"
+        - "{{ trans_hosts_list }}"
+        - "{{ search_ent_hosts_list }}"
+
+- name: Configure and enable the firewall on database hosts
+  hosts: database
+  become: true
+  tasks:
+  - name: Include firewall task
+    include_tasks: "../roles/common/tasks/firewall.yml"
+    vars:
+      firewall_ports:
+        - "{{ ports_cfg.postgres.sql }}"
+      firewall_sources:
+        - "{{ repo_hosts_list }}"
+        - "{{ sync_hosts_list }}"
+    when: repo_db_url == ""
+
+- name: Configure and enable the firewall on repository hosts
+  hosts: repository
+  become: true
+  tasks:
+  - name: Include firewall task
+    include_tasks: "../roles/common/tasks/firewall.yml"
+    vars:
+      firewall_ports:
+        - "{{ ports_cfg.repository.http }}"
+        - "{{ ports_cfg.repository.https }}"
+      firewall_sources:
+        - "{{ nginx_hosts_list }}"
+        - "{{ search_hosts_list }}"
+        - "{{ sync_hosts_list }}"
+        - "{{ acc_hosts_list }}"
+        - "{{ adw_hosts_list }}"
+
+- name: Configure and enable the firewall on search hosts
+  hosts: search
+  become: true
+  tasks:
+  - name: Include firewall task
+    include_tasks: "../roles/common/tasks/firewall.yml"
+    vars:
+      firewall_ports:
+        - "{{ ports_cfg.search.http }}"
+      firewall_sources:
+        - "{{ repo_hosts_list }}"
+
+- name: Configure and enable the firewall on transformers hosts
+  hosts: transformers
+  become: true
+  tasks:
+  - name: Include firewall task
+    include_tasks: "../roles/common/tasks/firewall.yml"
+    vars:
+      firewall_ports:
+        - "{{ ports_cfg.transformers.tengine }}"
+      firewall_sources:
+        - "{{ repo_hosts_list }}"
+    when: acs.edition != "Enterprise"
+
+- name: Configure and enable the firewall on transformers hosts
+  hosts: transformers
+  become: true
+  tasks:
+  - name: Include firewall task
+    include_tasks: "../roles/common/tasks/firewall.yml"
+    vars:
+      firewall_ports:
+        - "{{ ports_cfg.transformers.tengine }}"
+        - "{{ ports_cfg.transformers.trouter }}"
+        - "{{ ports_cfg.sfs.http }}"
+      firewall_sources:
+        - "{{ repo_hosts_list }}"
+    when: acs.edition == "Enterprise"
+
+- name: Configure and enable the firewall on syncservice hosts
+  hosts: syncservice
+  become: true
+  tasks:
+  - name: Include firewall task
+    include_tasks: "../roles/common/tasks/firewall.yml"
+    vars:
+      firewall_ports:
+        - "{{ ports_cfg.sync.http }}"
+      firewall_sources:
+        - "{{ repo_hosts_list }}"
+        - "{{ nginx_hosts_list }}"
+    when: acs.edition == "Enterprise"
+
+- name: Configure and enable the firewall on acc hosts
+  hosts: acc
+  become: true
+  tasks:
+  - name: Include firewall task
+    include_tasks: "../roles/common/tasks/firewall.yml"
+    vars:
+      firewall_ports:
+        - "{{ ports_cfg.acc.http }}"
+      firewall_sources:
+        - "{{ nginx_hosts_list }}"
+    when: acs.edition == "Enterprise"
+
+- name: Configure and enable the firewall on adw hosts
+  hosts: adw
+  become: true
+  tasks:
+  - name: Include firewall task
+    include_tasks: "../roles/common/tasks/firewall.yml"
+    vars:
+      firewall_ports:
+        - "{{ ports_cfg.adw.http }}"
+      firewall_sources:
+        - "{{ nginx_hosts_list }}"
+    when: acs.edition == "Enterprise"
+
+- name: Configure and enable the firewall on nginx hosts
+  hosts: nginx
+  become: true
+  tasks:
+  - name: Include firewall task
+    include_tasks: "../roles/common/tasks/firewall.yml"
+    vars:
+      firewall_ports:
+        - "{{ ports_cfg.nginx.http }}"
+        - "{{ ports_cfg.nginx.https }}"
