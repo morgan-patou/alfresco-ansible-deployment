@@ -117,7 +117,6 @@
         - "{{ ports_cfg.acc.http }}"
       firewall_sources:
         - "{{ nginx_hosts_list }}"
-    when: acs.edition == "Enterprise"
 
 - name: Configure and enable the firewall on adw hosts
   hosts: adw

@@ -175,7 +175,6 @@
         delegate_target: "{{ groups.acc | first }}"
       when:
         - groups.acc | default([]) | length > 0
-        - acs.edition == "Enterprise"
 
     - name: Check adw connection
       ansible.builtin.include_tasks: "../roles/helper_modules/tasks/check_port.yml"
