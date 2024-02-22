@@ -2,28 +2,25 @@
 # Install with ansible-galaxy install -vr requirements.yml
 collections:
   - name: community.general
-    version: 7.4.0
+    version: 8.2.0
   - name: community.postgresql
-    version: 2.1.0
+    version: 3.3.0
   - name: ansible.posix
     version: 1.5.4
   - name: ansible.utils
-    version: 2.6.0
+    version: 3.1.0
   - name: community.crypto
-    version: 2.10.0
+    version: 2.17.1
   - name: middleware_automation.keycloak
-    version: 2.0.0
+    version: 2.0.2
   # molecule ec2 tests
   - name: amazon.aws
-    version: 6.3.0
+    version: 7.3.0
   - name: community.aws
-    version: 6.3.0
-  # molecule roles tests
-  - name: community.docker
-    version: 2.1.1
+    version: 7.1.0
 
 roles:
   - name: buluma.elastic_repo
-    version: v0.1.2
+    version: v0.4.0
   - name: buluma.elasticsearch
-    version: 1.0.2
+    version: 1.2.0

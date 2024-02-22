@@ -140,8 +140,11 @@ We expect distribution support to be added using mostly roles `vars` files. If
 distro specific tasks are needed those should be skipped for other distros
 and possibly added in separate task files.
 
-The OS support table in `docs/README.md` must be updates and so does the
-`supported_os` variable in the `group_vars/all.yml` file.
+New distributions must be added to the `supported_os` variable in the `group_vars/all.yml` file.
+
+If a new OS enters the official supported matrix but is not supported by the
+playbook. It must be mentioned in the [Versioning chapter of the
+doc](./README.md#versioning)
 
 ## Release
 
@@ -149,6 +152,7 @@ Follow this quick checklist:
 
 * copy the versions inside the group_vars/all.yml to a new X.X.N-extra-vars.yml
 * run updatecli against the latest and supported versions (one for each extra-vars file)
+  * e.g. `updatecli apply --config scripts/updatecli/updatecli_config.tpl --values scripts/updatecli/updatecli_base.yml --values scripts/updatecli/updatecli_acs23.yml`
 * ensure that the [tables in the main readme](README.md) has been updated
 * ensure that AMI id for the root molecule tests are not outdated (e.g. [default suite](../molecule/default/vars-rhel8.yml))
 

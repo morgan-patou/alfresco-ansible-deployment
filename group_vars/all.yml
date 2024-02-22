@@ -54,7 +54,7 @@ search_enterprise:
 search:
   artifact_name: alfresco-search-services
   repository: "{{ nexus_repository.releases }}"
-  version: 2.0.8.2
+  version: 2.0.9
 transform:
   artifact_name: alfresco-transform-core-aio
   repository: "{{ nexus_repository.releases }}"
@@ -82,7 +82,11 @@ acc:
 supported_os:
   RedHat:
     versions:
+      - 9.3
       - 9.2
+      - 9.1
+      - 9.0
+      - 8.8
       - 8.7
       - 8.6
       - 8.5
@@ -93,7 +97,11 @@ supported_os:
       - 7.6
   Rocky:
     versions:
+      - 9.3
       - 9.2
+      - 9.1
+      - 9.0
+      - 8.8
       - 8.7
       - 8.6
   CentOS:
